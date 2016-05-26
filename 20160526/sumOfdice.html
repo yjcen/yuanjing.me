@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0 auto;
+            width: 600px;
+        }
+
+        #nav {
+            width: 600px;
+            height: 30px;
+            background-color: honeydew;
+            text-align: center;
+            line-height: 30px;
+
+        }
+
+        #demoCanvas {
+            display: block;
+            /*border:5px solid green;*/
+            background-color: lightblue;
+        }
+
+        #footer {
+            width: 600px;
+            height: 30px;
+            background-color: bisque;
+            line-height: 30px;
+            text-align: center;
+        }
+        #footerBtn {
+            width: 600px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div id="nav">规则：期望两个骰子之和为6</div>
+<canvas id="demoCanvas"></canvas>
+<div id="footer"></div>
+<div id="footerBtn"><button id="start">开始</button></div>
+
+
+
+<script>
+    var myCanvas = document.getElementById("demoCanvas");
+    var ctx = myCanvas.getContext("2d");
+    myCanvas.width = 600;
+    myCanvas.height = 300;
+
+    var clear = function () {
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    };
+
+    var drawDice = function (x, y, num) {
+        ctx.strokeRect(x - 50, y - 50, 100, 100);
+        ctx.font = "36px sans-serif";
+        ctx.fillText(num.toString(), x - 10, y + 10);
+    };
+
+    //以面向对象的做法来说
+    function DiceGame() {
+    }
+
+    DiceGame.prototype = {
+        init: function () {
+            drawDice(myCanvas.width/3,myCanvas.height/2,"?");
+            drawDice(myCanvas.width/3*2,myCanvas.height/2,"?");
+        },
+
+        run: function () {
+            clear();
+            var num1 = Math.floor(Math.random() * 6) + 1;
+            drawDice(myCanvas.width / 3, myCanvas.height / 2, num1);
+            var num2 = Math.floor(Math.random() * 6) + 1;
+            drawDice(myCanvas.width / 3 * 2, myCanvas.height / 2, num2);
+
+            if ((num1 + num2) === 6) {
+                console.log("OK");
+                document.getElementById("footer").innerHTML = "真的很好运气";
+                alert("真的很好运气！")
+            } else {
+                console.log("请再试一次");
+                document.getElementById("footer").innerHTML = "请再试一次";
+            }
+        }
+    };
+
+    var myDice = new DiceGame();
+    myDice.init();
+
+    var buttonStart = document.getElementById("start");
+    buttonStart.addEventListener("click", function () {
+        myDice.run();
+    }, false);
+
+
+
+    //不是面向对象的写法
+    //    ctx.clear = function () {
+    //        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    //    };
+    //
+    //    ctx.drawDice = function (x, y,num) {
+    //        ctx.strokeRect(x-50,y-50,100,100);
+    //        ctx.font = "36px sans-serif";
+    //        ctx.fillText(num.toString(),x-10,y+10);
+    //    };
+    //
+    //    function diceGame() {
+    //        ctx.clear();
+    //        var num1 = Math.floor(Math.random() * 6) + 1;
+    //        ctx.drawDice(myCanvas.width/3,myCanvas.height/2,num1);
+    //
+    //        var num2 = Math.floor(Math.random() * 6) + 1;
+    //        ctx.drawDice(myCanvas.width/3*2,myCanvas.height/2,num2);
+    //
+    //        if ((num1+num2) === 6) {
+    //            console.log("OK");
+    //            document.getElementById("footer").innerHTML = "真的很好运气";
+    //        } else {
+    //            console.log("请再试一次");
+    //            document.getElementById("footer").innerHTML = "请再试一次";
+    //        }
+    //    }
+    //
+    //    ctx.drawDice(myCanvas.width/3,myCanvas.height/2,"?");
+    //    ctx.drawDice(myCanvas.width/3*2,myCanvas.height/2,"?");
+    //
+    //    var buttonStart = document.getElementById("start");
+    //    buttonStart.addEventListener("click",function () {
+    //        diceGame();
+    //    },false);
+
+
+    //    diceGame();
+
+
+    //
+    //    ctx.strokeRect(myCanvas.width/3-50,myCanvas.height/2-50,100,100);
+    //    ctx.strokeRect(myCanvas.width/3*2-50,myCanvas.height/2-50,100,100);
+    //    ctx.fillText("1",myCanvas.width/3,myCanvas.height/2);
+    //    ctx.fillText("1",myCanvas.width/3*2,myCanvas.height/2);
+
+
+    //    function DiceGame(diceNum) {
+    //        this.diceNum = diceNum;
+    //    }
+    //
+    //    DiceGame.prototype = {
+    //        init: function () {
+    //            this.diceNum = Math.floor(Math.random() * 6) + 1;
+    //        },
+    //        start: function () {
+    //
+    //        },
+    //        end: function () {
+    //
+    //        }
+    //    };
+
+
+    //    var n1=0,n2=0,n3=0,n4=0,n5=0,n6=0;
+    //    for (var i=1;i<100;i++){
+    //        var temp = Math.floor(Math.random()*6) + 1;
+    //        switch (temp) {
+    //            case 1 :
+    //                n1 = n1 + 1;
+    //                break;
+    //            case 2 :
+    //                n2 = n2 + 1;
+    //                break;
+    //            case 3 :
+    //                n3 = n3 + 1;
+    //                break;
+    //            case 4 :
+    //                n4 = n4 + 1;
+    //                break;
+    //            case 5 :
+    //                n5 = n5 + 1;
+    //                break;
+    //            case 6 :
+    //                n6 = n6 + 1;
+    //                break;
+    //            default:
+    //                alert("Have a problem!");
+    //                break;
+    //        }
+    //    }
+
+
+    //    ctx.beginPath();
+    //    ctx.arc(100,100,5,0,Math.PI*2,false);
+    //    ctx.closePath();
+    //    ctx.fill();
+    //
+    //    ctx.beginPath();
+    //    ctx.arc(100,100,50,0,Math.PI*2,false);
+    //    ctx.strokeStyle = "red";
+    //    ctx.closePath();
+    //    ctx.stroke();
+
+
+</script>
+
+
+</body>
+</html>
